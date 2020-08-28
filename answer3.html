@@ -1,0 +1,56 @@
+<!--Question 3-->
+
+<!--Please explain what is the bug in the following Javascript function, and how to correct it.-->
+<!--function createArrayOfFunctions(y) {-->
+<!--    var arr = [];-->
+<!--    for(var i = 0; i<y; i++) {-->
+<!--        arr[i] = function(x) { return x + i; }-->
+<!--    }-->
+<!--    return arr;-->
+<!--}-->
+<!--====================================================================================================-->
+
+<!--answer3:-->
+<!--The loop inside is already executing, only the last item will appear in the output.-->
+<!--Since there is only function scope in JavaScript,
+by wrapping the function in a new function to ensure that the value of "i" remains as expected.-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ans3</title>
+    <button onclick="test()">test</button>
+    <script>
+
+        function help(i) {
+            return function (x) {
+                return x + i;
+            }
+        }
+
+        function createArrayOfFunctions(y) {
+            var arr = [];
+            for (let i = 0; i < y; i++) {
+                arr[i] = help(i)
+                }
+
+            return arr;
+        }
+
+        function test() {
+            var arr = createArrayOfFunctions(3);
+            for (var i = 0; i < 3; i++) {
+                console.log(
+                    arr[i](5)
+                );
+            }
+        }
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>
+
