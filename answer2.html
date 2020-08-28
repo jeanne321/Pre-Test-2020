@@ -1,0 +1,162 @@
+# Pre-Test-2020
+
+# answer2
+
+<!--get(key) computational complexity: O(n ^ 2)-->
+<!--put(key, value, weight) computational complexity: O(n ^ 2)-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ans2 modi</title>
+    <style type="text/css">
+        body {
+            text-align: center;
+        }
+
+        .outer_form {
+            display: block;
+            position: absolute;
+            margin: auto;
+            min-height: 400px;
+            min-width: 250px;
+            width: 300px;
+            height: 350px;
+            top: 0; bottom: 0; left: 0; right: 0;
+            font-family: Consolas,sans-serif;
+            box-shadow: 6px 6px 10px darkgray;
+            padding: 20px;
+            border-radius: 20px;
+        }
+
+        .outer_form input {
+            border: none;
+            padding: 15px 30px
+        }
+
+        #name, #addValue, #input_weight {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            background-color: lavender;
+            border-radius: 50px;
+            padding: 10px;
+        }
+
+        #input_weight{
+            margin-bottom: 30px;
+        }
+
+        .button {
+            background-color: royalblue;
+            font-family: Consolas,sans-serif;
+            border: none;
+            border-radius: 10px;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .button:hover {
+            opacity: 0.7;
+        }
+
+        #show_value {
+            top:50px;
+        }
+
+    </style>
+
+    <script>
+        var capacity = 10;
+
+        var my_arr = [
+            {key: "key1", value:'value1', weight: 1, score: 0},
+        {key: "key2", value:'value2', weight: 4, score: 0},
+        {key: "key3", value:'value3', weight: 2, score: 0},
+        {key: "key4", value:'value4', weight: 2, score: 0},
+        {key: "key5", value:'value5', weight: 3, score: 0},
+        {key: "key6", value:'value6', weight: 5, score: 0},
+        ];
+
+        function get() {
+            var inputVal = document.getElementById("name").value;
+            return check_key();
+
+            function check_key() {
+                for (let i = 0; i < my_arr.length; i++) {
+                    if (inputVal !== my_arr[i].key) {
+                        console.log(my_arr[i].key)
+                    } else {
+                        var v = my_arr[i];
+                        var g = v.value;
+                        console.log(g);
+                        document.getElementById('show_value').innerHTML = g;
+                    }
+                }
+            }
+        }
+        function invalidate_least_score() {
+            my_arr = my_arr.sort(function (a, b) {
+                return a.score < b.score ? 1 : -1;
+            });
+            my_arr.pop();
+            const nameList = my_arr.map(item => Object.values(item)[0]);
+            console.log(nameList)}
+
+
+        function put() {
+            var user_name = document.getElementById("name").value;
+            var newValue = document.getElementById("addValue").value;
+            var input_weight = document.getElementById("input_weight").value;
+            if (user_name.length === 0 || newValue.length === 0) {
+                alert('Please enter key/value')
+            } else {
+                my_arr.push({key: user_name, value: newValue, weight: input_weight, score: 0});
+
+                if (my_arr.length > capacity) {
+                    for (var x = 0; x < my_arr.length; x++) {
+                        my_arr[x].score =
+                            my_arr[x].weight / Math.log(Math.log(new Date() - new Date(document.lastModified)));
+
+                        console.log(my_arr[x].key);
+                        console.log(my_arr[x].score);
+
+                    }
+                    return invalidate_least_score();
+                } else {
+                    for (var w = 0; w < my_arr.length; w++) {
+                        my_arr[w].weight = my_arr[w].weight / -100;
+
+                        console.log("new weight" + my_arr[w].weight);
+                    }
+                }
+            }
+        }
+
+    </script>
+</head>
+<body>
+
+<form name="myForm" class="outer_form" onsubmit="return put()" method="post">
+    <input type="search" id="name" placeholder="KEY" required>
+    <br/>
+    <input type="text" id="addValue" placeholder="VALUE" required>
+
+    <label><br/>Weight:</label>
+    <input type="number" min="1" max="5" id="input_weight" placeholder="1 ~ 5" required><br/>
+
+    <div class="buttons">
+        <input type="submit" class="button" onclick="put()" value="add data">
+        <input type="button" class="button" onclick="get()" value="search">
+    </div>
+
+    <div>
+        <p>Your data will show here.</p>
+        <p id="show_value"></p>
+    </div>
+</form>
+
+</body>
+</html>
